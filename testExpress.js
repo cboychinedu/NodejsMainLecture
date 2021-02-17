@@ -3,11 +3,10 @@ const express = require('express');
 const morgan = require('morgan'); 
 const app = express(); 
 
-// loading the name router module 
+// loading the necessary Routes 
 const names = require('./routes/names'); 
-
-// loading the home page router module 
 const home = require('./routes/home'); 
+const genres = require('./routes/genres'); 
 
 // loading the joi module 
 const Joi = require('joi'); 
@@ -26,13 +25,10 @@ app.use(express.urlencoded({ extended: true}));
 app.use(morgan('tiny')); 
 app.use(express.static('static')); 
 
-// Any requested route with the name "/api/names" return back 
-// the router present in the names modules. 
-app.use('/api/names', names); 
-
-// Any request route with the name "/" return back the 
-// home page router 
+// Setting the routes configurations 
 app.use('/', home); 
+app.use('/api/names', names);  
+app.use('/api/genres', genres); 
 
 // Setting the views 
 app.set('view engine', 'pug'); 
