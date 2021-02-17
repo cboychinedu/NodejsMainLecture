@@ -2,10 +2,16 @@
 const express = require('express'); 
 const Joi = require('joi'); 
 
+// loading the config module 
+const config = require('config'); 
 
-//
+// Building the express object 
 const app = express();  
+
+// Setting some parameters and adding the expres.json() middleware 
 app.use(express.json()); 
+app.use(express.static('static')); 
+app.use(express.urlencoded({ extended: true })); 
 
 // Using the environment variable for assigning the PORT value 
 const PORT = process.env.PORT || 3000; 

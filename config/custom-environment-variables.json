@@ -1,0 +1,6 @@
+{
+    "mail": {
+        "host": "development-mailing-list", 
+        "password": "app_password"
+    }
+}

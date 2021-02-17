@@ -1,0 +1,43 @@
+body {
+    background-color: rgb(231, 217, 217); 
+}
+
+/* .border { background-color: black; }
+
+.box { width: 100px; height: 200px; float: left; margin: 0 10px 10px 0; }
+.red { color: red; background: pink; }
+.blue { color: blue; background-color: lightblue; }
+.green { color: green; background-color: light-green; } 
+.border { border: 5px solid black; } */
+
+.box {
+    width: 20%; 
+    text-align: center;
+    margin-right: 20px; 
+    margin-left: 20px; 
+    margin-top: 20px; 
+    border: 1px solid black; 
+    /* background-color: rgb(58, 56, 56);  */
+}
+
+.left-div {
+    background-color: green; 
+    margin-left: 10%; 
+    width: 20%; 
+}
+
+.right-div {
+    background-color: coral;
+    width: 26%; 
+    margin-left: 10%; 
+    float: right; 
+    margin-top: -447px;
+    margin-right: 10%;  
+}
+
+.middle-div {
+    background-color: black; 
+    color: white; 
+    width: 20%; 
+    margin-left: 10%;
+}
