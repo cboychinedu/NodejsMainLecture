@@ -1,19 +1,22 @@
 // Importing the necessary modules 
+const { ObjectId } = require('mongodb');
 const mongodb = require('mongoose'); 
 
 // Connecting to the mongodb database  
-mongodb.connect('mongodb://localhost/local_user')
+mongodb.connect('mongodb://localhost/local_user')   /* Note the database used here is "local_user" */ 
     .then(() => { console.log('Connected to the mongodb database..')}) 
     .catch(() => { console.log('Could not connect to mongodb database...')}); 
 
 // Creating a schema 
 const courseSchema = new mongodb.Schema({
+    "_id": String, 
     name: String, 
     author: String, 
     tags: [String, ], 
     date: { type: Date, default: Date.now }, 
-    isPublished: Boolean 
-
+    price: Number, 
+    isPublished: Boolean, 
+    versionKey: false 
 }); 
 
 // Converting the created schema into a model 
@@ -24,7 +27,7 @@ async function getCourses()
 {
     // Creating an async await class to get all the courses 
     const courses = await COURSE
-        .find(); 
+        .findById({"_id": "5a68fde3f09ad7646ddec17e"}); 
 
     // Displaying the result 
     console.log(courses); 
@@ -38,7 +41,7 @@ async function getCourseByProp()
         .find({ author: 'Mosh Lectures', isPublished: true })
         .limit(10) 
         // .sort({ name: 1, author: 1 })
-        .select({ name: 1, tags: 1, author: 1 }); 
+        .select({ name: 1, tags: 1, author: 1 , _id: 1 }); 
     
     // Displaying the result 
     console.log(courses); 
@@ -77,5 +80,5 @@ async function getCourseByComparison()
 }
 
 // Executing the function 
-// getCourses();
-getCourseByProp();  
+getCourses();
+// getCourseByProp();  
