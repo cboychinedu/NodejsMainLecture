@@ -6,7 +6,7 @@ mongodb.connect('mongodb://localhost/local_user')
     .then(() => {console.log('Connected to mongodb...')}) 
     .catch((err) => { console.log('Could not connect to mongodb...')}); 
 
-// Creating a schema 
+// Creating a schema  
 const courseSchema = new mongodb.Schema({
     name: String, 
     author: String, 
