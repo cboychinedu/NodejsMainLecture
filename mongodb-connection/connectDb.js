@@ -9,7 +9,7 @@ mongodb.connect('mongodb://localhost/local_user')  /* Note that the database use
 // Creating a schema  
 const courseSchema = new mongodb.Schema({
     "_id": String, 
-    name: String, 
+    name: { type: String, required: true }, 
     author: String, 
     tags: [String, ], 
     date: { type: Date, default: Date.now }, 
