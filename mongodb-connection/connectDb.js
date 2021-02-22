@@ -27,6 +27,7 @@ async function createCourse()
 {
     // Creating an object from the created model/class 
     const course = new COURSE({
+        "_id": "5a68fde3f09ad7646ddec17e", 
         name: "Nodejs Course", 
         author: "Mosh Lectures", 
         tags: ["node", "backend"], 

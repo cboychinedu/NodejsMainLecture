@@ -35,7 +35,7 @@ async function updateCourse(id)
  
     console.log(id); 
 
-    // if the course is empty, return a "null" value 
+    // if the course is empty, return a "null" value  
     if ( !course ) return; 
 
     // Changing the values 
