@@ -5,7 +5,7 @@ const mongodb = require('mongoose');
 // Connecting to the mongodb database  
 mongodb.connect('mongodb://localhost/local_user')   /* Note the database used here is "local_user" */ 
     .then(() => { console.log('Connected to the mongodb database..')}) 
-    .catch(() => { console.log('Could not connect to mongodb database...')}); 
+    .catch(() => { console.log('Could not connect to mongodb database...')});  
 
 // Creating a schema 
 const courseSchema = new mongodb.Schema({
@@ -15,7 +15,7 @@ const courseSchema = new mongodb.Schema({
     tags: [String, ], 
     date: { type: Date, default: Date.now }, 
     price: Number, 
-    isPublished: Boolean, 
+    isPublished: Boolean,
     versionKey: false 
 }); 
 

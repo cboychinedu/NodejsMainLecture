@@ -1,8 +1,19 @@
 // Importing the required modules 
+const { ObjectId } = require('mongodb'); 
+const mongodb = require('mongoose'); 
 const express = require('express'); 
-const Joi = require('joi'); 
 const morgan = require('morgan'); 
 const config = require('config'); 
+
+// Creating a connection to the mongodb database 
+// Setting the path to the database URI 
+databaseURI = "mongodb://localhost/local_user"; 
+
+// Connecting 
+mongodb.connect(databaseURI) 
+    .then(() => { console.log('Connected to mongodb...')}) 
+    .catch((err) => { console.log('Could not connect to mongodb...')}); 
+
 
 // Importing the required routes 
 const courses = require('./routes/courses'); 

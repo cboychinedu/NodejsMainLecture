@@ -1,13 +1,29 @@
 // Importing the required modules 
+const { ObjectId } = require('mongodb'); 
+const mongodb = require('mongoose'); 
 const express = require('express'); 
 const router = express.Router(); 
+const Joi = require('joi'); 
 
 // Creating a dict to hold the id and names for courses 
-const courses = [
-    { id: 1, name: 'course1' }, 
-    { id: 2, name: 'course2' }, 
-    { id: 3, name: 'course3' }
-]; 
+// const courses = [
+//     { id: 1, name: 'course1' }, 
+//     { id: 2, name: 'course2' }, 
+//     { id: 3, name: 'course3' }
+// ]; 
+
+// Creating a schema 
+const courseSchema = new mongodb.Schema({
+    "_id": Number, 
+    "FirstName": String, 
+    "LastName": String, 
+    date: { type: Date, default: Date.now }, 
+    versionKey: false 
+}); 
+
+// Converting the created schema into a model 
+const COURSE = mongodb.model('courses', courseSchema); 
+
 
 // Creating a function for validating the course 
 function validateCourse(course) 
@@ -21,15 +37,20 @@ function validateCourse(course)
 }; 
 
 // Creating a route for sending all the courses 
-router.get('/', (req, res) => 
+router.get('/', async (req, res) => 
 {
     // If successful, send back all the courses 
+    const courses = await COURSE
+        .find()
+        .select({"FirstName": 1, "LastName": 1, "_id": 1 }); 
+    
+    // Sending back the courses 
     res.send(courses); 
     res.end(); 
 });
 
 // Using HTTP POST request to post data to the list 'courses' (CREATE)
-router.post('/', (req, res) => 
+router.post('/', async (req, res) => 
 {
     // 
     const result = validateCourse(req.body);
@@ -40,16 +61,16 @@ router.post('/', (req, res) =>
     else {console.log('Successful!')}
 
     // Creating a dict to hold newly created values using POST request 
-    const courseObj = { 
-        id: courses.length + 1,   // Getting the id manually 
+    let courseObj = new COURSE ({ 
+        // id: courses.length + 1,   // Getting the id manually 
         name: req.body.name       // Getting the name from the post request 
-    }; 
+    }); 
 
     // Pushing the created value to the courses dict 
-    courses.push(courseObj); 
+    courseObj = await courseObj.save(); 
 
     // Sending back the updated dict to the user for verification 
-    res.send(courses); 
+    res.send(courseObj); 
 }); 
 
 // Updating resources (PUT) (UPDATE)
