@@ -1,7 +1,6 @@
 {
-  "name": "MainNodeJsLectures",
+  "name": "mainnodejslectures",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,11 +9,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mapbox/node-pre-gyp": "^1.0.0",
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "config": "^3.3.3",
     "debug": "^4.3.1",
     "ejs": "^3.1.6",
     "fawn": "^2.1.5",
     "joi": "^13.1.0",
+    "mongodb": "^3.6.4",
     "mongoose": "^5.11.17",
     "morgan": "^1.10.0",
     "pug": "^3.0.0",
@@ -22,5 +25,14 @@
   },
   "devDependencies": {
     "jshint": "^2.12.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cboychinedu/NodejsMainLecture.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cboychinedu/NodejsMainLecture/issues"
+  },
+  "homepage": "https://github.com/cboychinedu/NodejsMainLecture#readme",
+  "description": ""
 }
