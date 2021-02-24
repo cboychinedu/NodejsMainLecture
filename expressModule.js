@@ -17,6 +17,7 @@ mongodb.connect(databaseURI)
 
 // Importing the required routes 
 const courses = require('./routes/courses'); 
+const rentals = require('./routes/rentals'); 
 
 // Building the express object 
 const app = express();  
@@ -32,6 +33,7 @@ const PORT = process.env.PORT || 3000;
 
 // Setting the routes configurations 
 app.use('/api/courses', courses); 
+app.use('/api/rentals', rentals); 
 
 // Getting the configurations for the 'development' environment 
 console.log('Application Name: ' + config.get('name')); 

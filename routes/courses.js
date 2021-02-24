@@ -16,7 +16,7 @@ const Joi = require('joi');
 const courseSchema = new mongodb.Schema({
     name: { type: String, required: true }, 
     author: String, 
-    tags: [String, ], 
+    tags: { type: Array, }, 
     date: { type: Date, default: Date.now }, 
     price: Number, 
     isPublished: Boolean, 
@@ -72,7 +72,7 @@ router.post('/', async (req, res) =>
         isPublished: req.body.isPublished
     }); 
 
-    // Pushing the created value to the courses dict 
+    // Pushing the created value to the mongodb database 
     courseObj = await courseObj.save(); 
 
     // Sending back the updated dict to the user for verification 
