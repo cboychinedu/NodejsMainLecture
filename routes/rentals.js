@@ -7,8 +7,8 @@ const Joi = require('joi');
 
 // Creating a schema for the rentals 
 const rentalsSchema = new mongodb.Schema({
-    name: { type: String, required: true, min: 0, max: 255 }, 
-    author: { type: String, required: true, min: 0, max: 255 },  
+    name: { type: String, required: true, min: 2, max: 255 }, 
+    author: { type: String, required: true, min: 2, max: 255 },  
     tags: { type: Array}, 
     date: { type: Date, default: Date.now }, 
     isPublished: { type: Boolean }, 
@@ -24,6 +24,9 @@ function validateRentals(rentals)
         name: Joi.string().min(2).required(), 
         author: Joi.string().min(2).required() 
     }
+
+    // Returning the result for the validation 
+    return Joi.validate(rentals, schema); 
 }
 
 // connecting to the collection 'rentals'

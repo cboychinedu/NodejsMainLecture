@@ -7,7 +7,8 @@ const router = express.Router();
 router.get('/', (req, res) =>
 {
     // Sending the home page 
-    res.send("<h2> Home page section </h2>"); 
+    res.send("<h2> Home page </h2>"); 
+    res.end(); 
 })
 
 // Exporting the home page router 
