@@ -14,8 +14,38 @@ const UserSchema = new mongodb.Schema({
     versionKey: false 
 }); 
 
+// Creating a function for validating registration 
+function validateRegistration(registration)
+{
+    // Creating a schema using joi to validate the firstname, lastname, email and password 
+    const schema = {
+        firstname: Joi.string().min(2).max(50).required(), 
+        lastname: Joi.string().min(2).max(50).required(), 
+        email: Joi.string().min(3).max(50).required().email(), 
+        password: Joi.string().min(3).max(1024).required() 
+    }; 
+
+    // Returning the results for the validation 
+    return Joi.validate(registration, schema);
+}; 
+
+// Creating a function for validating logins 
+function validateLogins(logins) 
+{
+    // Creating a schema using joi to validate the email and password 
+    const schema = { 
+        email: Joi.string().min(3).max(50).required().email(), 
+        password: Joi.string().min(3).max(1024).required() 
+    }
+
+    // Returning the results for the validation 
+    return Joi.validate(logins, schema); 
+}
+
 // Connecting to the mongodb database collection of name 'Users' 
 const USERS = mongodb.model('Users', UserSchema); 
 
 // Exporing the module 
-module.exports = USERS; 
+module.exports.USERS = USERS; 
+module.exports.validateLogins = validateLogins; 
+module.exports.validateRegistration = validateRegistration; 

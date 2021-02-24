@@ -4,25 +4,9 @@ const mongodb = require('mongoose');
 const express = require('express'); 
 const router = express.Router(); 
 const Joi = require('joi'); 
-const USERS = require('../models/users'); 
+const { USERS } = require('../models/users'); 
+const { validateRegistration } = require('../models/users'); 
 
-// Creating a function to validate the value for registration 
-function validateRegistration(registration) 
-{
-    // Creating a schema using joi to validate the firstname, lastname, email and password 
-    const schema = {
-        firstname: Joi.string().min(2).max(50).required(), 
-        lastname: Joi.string().min(2).max(50).required(), 
-        email: Joi.string().min(3).max(50).required().email(), 
-        password: Joi.string().min(3).max(1024).required()
-    }; 
-
-    // Returning the results for the validation 
-    return Joi.validate(registration, schema); 
-}; 
-
-// Connecting to mongodb database collection of name "Users" 
-// const REGISTRATION = mongodb.model('customer-user', registerSchema);   // Data stored into the Users collection 
 
 // Creating the home page for the registration section 
 router.get('/', (req, res) => 
@@ -76,3 +60,21 @@ router.post('/', async (req, res) =>
 
 // Exporting the registeration module 
 module.exports = router; 
+
+// Creating a function to validate the value for registration 
+// function validateRegistration(registration) 
+// {
+//     // Creating a schema using joi to validate the firstname, lastname, email and password 
+//     const schema = {
+//         firstname: Joi.string().min(2).max(50).required(), 
+//         lastname: Joi.string().min(2).max(50).required(), 
+//         email: Joi.string().min(3).max(50).required().email(), 
+//         password: Joi.string().min(3).max(1024).required()
+//     }; 
+
+//     // Returning the results for the validation 
+//     return Joi.validate(registration, schema); 
+// }; 
+
+// Connecting to mongodb database collection of name "Users" 
+// const REGISTRATION = mongodb.model('customer-user', registerSchema);   // Data stored into the Users collection 

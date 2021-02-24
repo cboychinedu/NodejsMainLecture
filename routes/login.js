@@ -4,23 +4,9 @@ const mongodb = require('mongoose');
 const express = require('express'); 
 const router = express.Router(); 
 const Joi = require('joi'); 
-const USERS = require('../models/users'); 
+const { USERS } = require('../models/users');
+const { validateLogins } = require('../models/users'); 
 
-// Creating a function to validate the values for the logins 
-function validateLogins(logins)
-{
-    // Creating a schema using Joi to validate the email and password 
-    const schema = {
-        email: Joi.string().min(3).max(50).required().email(), 
-        password: Joi.string().min(3).max(1024).required() 
-    }
-
-    // Returning the results for the validation 
-    return Joi.validate(logins, schema); 
-}
-
-// Connecting to mongodb database collection of name "Users" 
-// const LOGINS = mongodb.model('Customers', loginsSchema); 
 
 // Creating the login home page 
 router.get('/', (req, res) =>
@@ -57,3 +43,20 @@ router.post('/', async (req, res) =>
 
 // Exporting the login route 
 module.exports = router; 
+
+
+// Creating a function to validate the values for the logins 
+// function validateLogins(logins)
+// {
+//     // Creating a schema using Joi to validate the email and password 
+//     const schema = {
+//         email: Joi.string().min(3).max(50).required().email(), 
+//         password: Joi.string().min(3).max(1024).required() 
+//     }
+
+//     // Returning the results for the validation 
+//     return Joi.validate(logins, schema); 
+// }; 
+
+// Connecting to mongodb database collection of name "Users" 
+// const LOGINS = mongodb.model('Customers', loginsSchema); 
