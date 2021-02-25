@@ -1,4 +1,5 @@
 // Importing the required modules 
+const bcrypt = require('bcrypt'); 
 const { ObjectId } = require('mongodb'); 
 const mongodb = require('mongoose'); 
 const express = require('express'); 
@@ -32,12 +33,16 @@ router.post('/', async (req, res) =>
     if ( result.error ) return res.status(400).send(result.error.details[0].message); 
     else { console.log( 'Successful on validation! ' )}; 
 
+    // Encrypting the password 
+    let salt = await bcrypt.genSalt(5); 
+    hashed_password = await bcrypt.hash(req.body.password, salt); 
+
     // Saving the new user 
     let register = new USERS({
         firstname: req.body.firstname, 
         lastname: req.body.lastname, 
         email: req.body.email, 
-        password: req.body.password
+        password: hashed_password 
     }); 
 
     // Using the try-catch statement to check for errors 

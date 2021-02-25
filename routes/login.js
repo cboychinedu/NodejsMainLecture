@@ -1,4 +1,5 @@
 // Importing the required modules 
+const bcrypt = require('bcrypt'); 
 const { ObjectId } = require('mongodb'); 
 const mongodb = require('mongoose'); 
 const express = require('express'); 
@@ -32,12 +33,27 @@ router.post('/', async (req, res) =>
 
     // look up the email and password if it's present in the database 
     let logins = await USERS
-        .find({ email: req.body.email, password: req.body.password })
-        .select({ name: 1, email: 1, firstname: 1, lastname: 1 }); 
+        // .find({ email: req.body.email, password: req.body.password })
+        .findOne({ email: req.body.email })
+        .select({ name: 1, email: 1, firstname: 1, lastname: 1, password: 1 }); 
 
-    // Sending back the verfication 
-    res.send(logins); 
-    res.end(); 
+    // If the email is not found 
+    console.log(logins); 
+    if ( logins === null) { return res.status(400).send('Invalid email or password.'); } 
+
+    // Verifying/validating the password using bcrypt
+    // let user_password = String(req.body.password); 
+    let user_password = req.body.password; 
+    let hashed_password = logins.password; 
+
+    // 
+    let validPasswordCondition = await bcrypt.compare(user_password, hashed_password); 
+    console.log(validPasswordCondition); 
+
+    // Sending back the verification 
+    if ( validPasswordCondition ) { res.send(logins); res.end(); }
+    else { return res.status(400).send('Invalid email or password.') }; 
+
 
 }); 
 

@@ -11,7 +11,6 @@
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.0",
     "bcrypt": "^5.0.0",
-    "bcryptjs": "^2.4.3",
     "config": "^3.3.3",
     "debug": "^4.3.1",
     "ejs": "^3.1.6",
@@ -20,6 +19,8 @@
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.17",
     "morgan": "^1.10.0",
+    "node-gyp": "^7.1.2",
+    "password-hash": "^1.2.2",
     "pug": "^3.0.0",
     "underscore": "^1.4.0"
   },
