@@ -5,7 +5,7 @@ const Joi = require('joi');
 const { USERS } = require('../models/users'); 
 
 // Importing the necessary module to protect a specified route 
-const auth = require('../middleware/jwt-auth'); 
+const ProtectedRoute  = require('../middleware/jwt-auth'); 
 
 // Using the express json middleware 
 router.use(express.json()); 
@@ -25,14 +25,17 @@ router.get('/', (req, res) =>
 }); 
 
 // Greetings 
-router.get('/protected', auth, async (req, res) => 
+router.get('/protected', ProtectedRoute, async (req, res) => 
 {
-    // 
-    const userLoggedIn = await USERS.findById({"_id": "6036eae1f3be68b5d5d69ddc"}); 
+    // Getting the logged in user 
+    // console.dir(req.rawHeaders); 
+    const userLoggedIn = await USERS
+        .findById({ "_id": req.user._id })
+        .select({ name: 1, email: 1, firstname: 1, lastname: 1 }); 
 
     // Sending back the greetings section 
     console.log(`Hello ${userLoggedIn.firstname}`); 
-    res.send("<h3> This route is protected </h3>"); 
+    res.send(`<h3> This route is protected, hello ${userLoggedIn.firstname} </h3>`); 
 }); 
 
 // 

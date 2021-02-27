@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken'); 
 
 // Creating a middleware function 
-function auth(req, res, next)
+function ProtectedRoute(req, res, next)
 {
     const token = req.header('x-auth-token'); 
     if (!token) { return res.status(401).send('<h4 style="background-color: black; color: white; font-size: 30px; margin-left: 50px;"> Access denied </h4>')}
@@ -30,4 +30,4 @@ function auth(req, res, next)
 }
 
 // Exporting the auth module 
-module.exports = auth; 
+module.exports = ProtectedRoute; 
