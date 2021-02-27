@@ -18,6 +18,7 @@ mongodb.connect(databaseURI)
 // Importing the required routes 
 const home = require('./routes/home'); 
 const login = require('./routes/login');
+const genres = require('./routes/genres'); 
 const register = require('./routes/register'); 
 const courses = require('./routes/courses'); 
 const rentals = require('./routes/rentals'); 
@@ -43,6 +44,7 @@ const HOST = process.env.HOST || 'localhost';
 // Setting the routes configurations 
 app.use('/', home); 
 app.use('/api/login', login);
+app.use('/api/genres', genres); 
 app.use('/api/register', register);  
 app.use('/api/courses', courses); 
 app.use('/api/rentals', rentals); 

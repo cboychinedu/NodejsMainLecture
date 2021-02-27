@@ -1,4 +1,5 @@
 // Importing the required modules 
+const jwt = require('jsonwebtoken'); 
 const bcrypt = require('bcrypt'); 
 const { ObjectId } = require('mongodb'); 
 const mongodb = require('mongoose'); 
@@ -46,12 +47,37 @@ router.post('/', async (req, res) =>
     let user_password = req.body.password; 
     let hashed_password = logins.password; 
 
-    // 
+    // Comparing the password to see if it's a valid password 
     let validPasswordCondition = await bcrypt.compare(user_password, hashed_password); 
     console.log(validPasswordCondition); 
 
-    // Sending back the verification 
-    if ( validPasswordCondition ) { res.send(logins); res.end(); }
+    // If the password is validate, and the result is true, send back the logins 
+    // Getting the password
+    if ( !process.env.token_pass )
+    {
+        // Closing the program if the env variable is not set
+        console.log('FATAL ERR: token_pass environment variable is not defined.'); 
+        process.exit(1); 
+    }
+
+    // If the env variable is set
+    else { token_password = process.env.token_pass; }
+
+    // Creating the token using the password
+    const token = jwt.sign({"_id": logins._id, "user": logins.name }, token_password); 
+    // console.log(jwt.decode(token, token_password)); 
+
+    // Sending back a response if the password was validated. 
+    if ( validPasswordCondition ) 
+    { 
+        // Sending the header with the generated token data 
+        res.header({'x-auth-token': token, 'X-Powered-By': 'Express',
+                     'Keep-Alive': 'timeout=20', 'Content-Type': 'application/json; charset=utf-8'}); 
+        res.send(logins);
+        res.end(); 
+    }
+
+    // if the password is not validated, send back "Invalid email or password" 
     else { return res.status(400).send('Invalid email or password.') }; 
 
 

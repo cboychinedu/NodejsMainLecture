@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router(); 
 const Joi = require('joi'); 
 
+// Importing the necessary module to protect a specified route 
+const auth = require('../middleware/jwt-auth'); 
+
 // Using the express json middleware 
 router.use(express.json()); 
 
@@ -21,10 +24,11 @@ router.get('/', (req, res) =>
 }); 
 
 // Greetings 
-router.get('/greetings', (req, res) => 
+router.get('/protected', auth, (req, res) => 
 {
     // Sending back the greetings section 
-    res.send("<h3> Genres Greetings Section! </h3>"); 
+    console.log(req.user); 
+    res.send("<h3> This route is protected </h3>"); 
 }); 
 
 // 
