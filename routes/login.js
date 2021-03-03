@@ -77,8 +77,13 @@ router.post('/', async (req, res) =>
         res.end(); 
     }
 
-    // if the password is not validated, send back "Invalid email or password" 
-    else { return res.status(400).send('Invalid email or password.') }; 
+     
+    else 
+    {
+        // if the password is not validated, send back "Invalid email or password"
+        let errMessage = JSON.stringify({"message": "Invalid email or password."});
+        return res.send(errMessage) 
+    }; 
 
 
 }); 

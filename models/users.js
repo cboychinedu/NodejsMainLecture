@@ -11,7 +11,7 @@ const UserSchema = new mongodb.Schema({
     lastname: { type: String, required: true, minlength: 2, maxlength: 50 }, 
     email: { type: String, unique: true, minlength: 2, maxlength: 50, required: true }, 
     password: { type: String, required: true, minlength: 3, maxlength: 1024 }, 
-    isAdmin: Boolean,
+    isAdmin: { type: Boolean }, 
     versionKey: false 
 }); 
 
