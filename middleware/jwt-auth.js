@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 function ProtectedRoute(req, res, next)
 {
     const token = req.header('x-auth-token');
-    if (!token) { return res.status(401).send('<h4 style="background-color: black; color: white; font-size: 30px; margin-left: 50px;"> Access denied </h4>')}
+    let errMessage = JSON.stringify({"message": "Access denied"}); 
+    if (!token) { return res.send(errMessage)}
 
     let token_password = process.env.token_pass;
 
@@ -23,8 +24,8 @@ function ProtectedRoute(req, res, next)
     catch (error)
     {
         // Display the error message, and send a status error code "400"
-        console.log(error.message);
-        res.status(400).send(error.message);
+        let errMessage = JSON.stringify({"message": error.message});
+        res.send(errMessage).status(400);
     }
 
 }

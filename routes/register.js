@@ -44,7 +44,7 @@ router.post('/', async (req, res) =>
         lastname: req.body.lastname,
         email: req.body.email,
         password: hashed_password, 
-        isAdmin: req.body.isAdmin || false 
+        isadmin: req.body.isadmin || "false" 
     });
 
     // Using the try-catch statement to check for errors

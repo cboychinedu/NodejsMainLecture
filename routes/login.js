@@ -38,11 +38,11 @@ router.post('/', async (req, res) =>
     let logins = await USERS
         // .find({ email: req.body.email, password: req.body.password })
         .findOne({ email: req.body.email })
-        .select({ name: 1, email: 1, firstname: 1, lastname: 1, password: 1, isAdmin: 1 }); 
+        .select({ name: 1, email: 1, firstname: 1, lastname: 1, password: 1, isadmin: 1 }); 
 
     // If the email is not found 
-    console.log(logins); 
-    if ( logins === null) { return res.status(400).send('Invalid email or password.'); } 
+    let errMessage = JSON.stringify({"message": "Invalid email or password.'"}); 
+    if (!logins) { return res.send(errMessage); } 
 
     // Verifying/validating the password using bcrypt
     // let user_password = String(req.body.password); 
@@ -51,7 +51,7 @@ router.post('/', async (req, res) =>
 
     // Comparing the password to see if it's a valid password 
     let validPasswordCondition = await bcrypt.compare(user_password, hashed_password); 
-    console.log(validPasswordCondition); 
+    // console.log(validPasswordCondition); 
 
     // If the password is validate, and the result is true, send back the logins 
     // Getting the password
@@ -68,26 +68,26 @@ router.post('/', async (req, res) =>
     // Creating the token using the password
     // PRIVATE and PUBLIC key
     // Getting the full path 
-    let fullPrivateKeyFullPath = path.join(__dirname, 'key', 'private.key'); 
-    let fullPublicKeyFullPath = path.join(__dirname, 'key', 'public.key'); 
+    // let fullPrivateKeyFullPath = path.join(__dirname, 'key', 'private.key'); 
+    // let fullPublicKeyFullPath = path.join(__dirname, 'key', 'public.key'); 
 
-    const privateKEY  = fs.readFileSync(fullPrivateKeyFullPath, 'utf8');
-    const publicKEY  = fs.readFileSync(fullPublicKeyFullPath, 'utf8');
+    // const privateKEY  = fs.readFileSync(fullPrivateKeyFullPath, 'utf8');
+    // const publicKEY  = fs.readFileSync(fullPublicKeyFullPath, 'utf8');
 
     // Converting the token into a JSON OBJECT 
-    let token_value = { "_id": logins._id }; 
-    let admin_value = { "isAdmin": logins.isAdmin }; 
+    let token_value = { "_id": logins._id, "isadmin": logins.isadmin }; 
+    // let admin_value = { "isAdmin": logins.isadmin }; 
 
     const token = jwt.sign(token_value, token_password);
-    const isAdmin_token = jwt.sign(admin_value, token_password);  
+    // const isAdmin_token = jwt.sign(admin_value, token_password);  
     // console.log(jwt.decode(token, token_password)); 
 
     // Sending back a response if the password was validated. 
     if ( validPasswordCondition ) 
     { 
         // Sending the header with the generated token data 
-        res.header({'x-auth-token': token, 'X-Powered-By': 'Express', 'isadmin': isAdmin_token,
-                     'Keep-Alive': 'timeout=20', 'Content-Type': 'application/json; charset=utf-8'}); 
+        res.header({'x-auth-token': token, 'X-Powered-By': 'Express',
+                    'Keep-Alive': 'timeout=20', 'Content-Type': 'application/json; charset=utf-8'}); 
         res.send(logins);
         res.end(); 
     }

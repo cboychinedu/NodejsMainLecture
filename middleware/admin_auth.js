@@ -1,19 +1,27 @@
+// Importing the necessary modules 
+const jwt = require('jsonwebtoken'); 
+
+
 // Creating a middleware function 
 function isAdminVerified(req, res, next)
 {
     // 
-    if (!req.user.isAdmin)
+    const isAdmin = req.headers.isadmin; 
+    console.log(req.headers.isadmin); 
+
+    // 
+    if (isAdmin) 
     {
         // 
-        let errMessage = JSON.stringify({"message": "Access denied."}); 
-        return res.send(errMessage).status(403); 
+        next(); 
     }
 
     // 
     else 
     {
         // 
-        next(); 
+        let errMessage = JSON.stringify({"message": "Access denied. (User not admin)"}); 
+        return res.send(errMessage).status(403); 
     }
 }
 
