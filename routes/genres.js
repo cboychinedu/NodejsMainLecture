@@ -6,6 +6,7 @@ const { USERS } = require('../models/users');
 
 // Importing the necessary module to protect a specified route 
 const ProtectedRoute  = require('../middleware/jwt-auth'); 
+const isAdminVerified = require('../middleware/admin_auth');
 
 // Using the express json middleware 
 router.use(express.json()); 
@@ -25,7 +26,7 @@ router.get('/', (req, res) =>
 }); 
 
 // Greetings 
-router.get('/protected', ProtectedRoute, async (req, res) => 
+router.get('/protected', [ProtectedRoute, isAdminVerified], async (req, res) => 
 {
     // Getting the logged in user 
     // console.dir(req.rawHeaders); 

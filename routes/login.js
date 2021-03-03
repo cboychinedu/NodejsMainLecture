@@ -64,7 +64,7 @@ router.post('/', async (req, res) =>
     else { token_password = process.env.token_pass; }
 
     // Creating the token using the password
-    const token = jwt.sign({"_id": logins._id, "user": logins.name }, token_password); 
+    const token = jwt.sign({"_id": logins._id, "isAdmin": logins.isAdmin }, token_password); 
     // console.log(jwt.decode(token, token_password)); 
 
     // Sending back a response if the password was validated. 
