@@ -1,4 +1,6 @@
 // Importing the required modules 
+const path = require('path'); 
+const fs = require('fs'); 
 const jwt = require('jsonwebtoken'); 
 const bcrypt = require('bcrypt'); 
 const { ObjectId } = require('mongodb'); 
@@ -36,7 +38,7 @@ router.post('/', async (req, res) =>
     let logins = await USERS
         // .find({ email: req.body.email, password: req.body.password })
         .findOne({ email: req.body.email })
-        .select({ name: 1, email: 1, firstname: 1, lastname: 1, password: 1 }); 
+        .select({ name: 1, email: 1, firstname: 1, lastname: 1, password: 1, isAdmin: 1 }); 
 
     // If the email is not found 
     console.log(logins); 
@@ -64,14 +66,27 @@ router.post('/', async (req, res) =>
     else { token_password = process.env.token_pass; }
 
     // Creating the token using the password
-    const token = jwt.sign({"_id": logins._id, "isAdmin": logins.isAdmin }, token_password); 
+    // PRIVATE and PUBLIC key
+    // Getting the full path 
+    let fullPrivateKeyFullPath = path.join(__dirname, 'key', 'private.key'); 
+    let fullPublicKeyFullPath = path.join(__dirname, 'key', 'public.key'); 
+
+    const privateKEY  = fs.readFileSync(fullPrivateKeyFullPath, 'utf8');
+    const publicKEY  = fs.readFileSync(fullPublicKeyFullPath, 'utf8');
+
+    // Converting the token into a JSON OBJECT 
+    let token_value = { "_id": logins._id }; 
+    let admin_value = { "isAdmin": logins.isAdmin }; 
+
+    const token = jwt.sign(token_value, token_password);
+    const isAdmin_token = jwt.sign(admin_value, token_password);  
     // console.log(jwt.decode(token, token_password)); 
 
     // Sending back a response if the password was validated. 
     if ( validPasswordCondition ) 
     { 
         // Sending the header with the generated token data 
-        res.header({'x-auth-token': token, 'X-Powered-By': 'Express',
+        res.header({'x-auth-token': token, 'X-Powered-By': 'Express', 'isadmin': isAdmin_token,
                      'Keep-Alive': 'timeout=20', 'Content-Type': 'application/json; charset=utf-8'}); 
         res.send(logins);
         res.end(); 
