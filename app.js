@@ -35,7 +35,7 @@ app.use(morgan('tiny'));
 
 // Setting the views 
 app.set('view engine', 'pug'); 
-app.set('views', '/.views'); 
+app.set('views', './views'); 
 
 // Using the environment variable for assigning the PORT value 
 const PORT = process.env.PORT || 3000; 

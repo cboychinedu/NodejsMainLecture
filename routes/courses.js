@@ -85,7 +85,7 @@ router.put('/:id', async (req, res) =>
     // Look up the course 
     // if the course not existing, return error 404 
     // let course = courses.find((c => c.id === parseInt(req.params.id))); 
-    let course = await COURSE.findById({"_id": req.params.id})
+    let course = await COURSE.findById({"_id": req.params.id}); 
     
     if (course) { res.send(course); res.end(); }
     else return res.status(404).send('The course with the given id was not found.'); 
@@ -99,7 +99,10 @@ router.put('/:id', async (req, res) =>
     // Update the course 
     // Return the updated course 
     course.name = req.body.name; 
-    res.send(course); 
+    courseObj = await course.save(); 
+
+    // Sending back the updated course 
+    res.send(courseObj); 
 }); 
 
 // http DELETE REQUEST 

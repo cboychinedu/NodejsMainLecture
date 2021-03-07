@@ -59,7 +59,8 @@ router.post('/', async (req, res) =>
     {
         // Closing the program if the env variable is not set
         console.log('FATAL ERR: token_pass environment variable is not defined.'); 
-        process.exit(1); 
+        const token_password = process.env.token_pass || "54346512#9+!!321"; 
+        // process.exit(1); 
     }
 
     // If the env variable is set
